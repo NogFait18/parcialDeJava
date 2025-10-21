@@ -2,6 +2,7 @@ package com.example.escuela.Controller;
 
 import com.example.escuela.Entity.dto.Estudiante.EstudianteCreate;
 import com.example.escuela.Entity.dto.Estudiante.EstudianteDto;
+import com.example.escuela.Entity.dto.Estudiante.EstudianteEdit;
 import com.example.escuela.Service.EstudianteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,10 +17,20 @@ public class EstudianteController extends BaseController<EstudianteDto, Estudian
     EstudianteService estudianteService;
 
     @GetMapping("findCursos/{idEstudiante}")
-    public ResponseEntity<?> findAll (@PathVariable Long idEstudiante){
-        try{
+    public ResponseEntity<?> findAll(@PathVariable Long idEstudiante) {
+        try {
             return ResponseEntity.ok(estudianteService.getCursosById(idEstudiante));
-        }catch (Exception e){
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Ocurrio un error del tipo " + e.getClass() + " \nMensaje: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody EstudianteEdit dto) {
+        try {
+            var actualizado = estudianteService.update(id, dto);
+            return ResponseEntity.ok(actualizado);
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body("Ocurrio un error del tipo " + e.getClass() + " \nMensaje: " + e.getMessage());
         }
     }

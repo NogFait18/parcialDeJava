@@ -11,5 +11,5 @@ import lombok.*;
 public class EstudianteDto {
     private Long id;
     private String nombre;
-    private String matricula;
+    private Long matricula;
 }
